@@ -35,12 +35,12 @@ class Book(db.Model):
     is_public = db.Column(db.Boolean, default=False)
     recommendations = db.relationship('Recommendation', backref='book', lazy=True)
 
-    class Recommendation(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        text = db.Column(db.Text, nullable=False)
-        created_at = db.Column(db.DateTime, default=datetime.utcnow)
-        user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-        book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
+class Recommendation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
 
     def to_dict(self):
         return {
