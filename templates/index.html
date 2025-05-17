@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 text-center">
+        <h1 class="display-5">Добро пожаловать в BookHub</h1>
+        <p class="lead">Читайте книги и пишите им отзывы!</p>
+    </div>
+</div>
+
+{% if current_user.is_authenticated %}
+    <h2 class="mb-3">Мои книги</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+        {% for book in my_books %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ url_for('uploaded_file', filename='covers/' + book.cover) }}"
+                     class="card-img-top"
+                     alt="{{ book.title }}"
+                     onerror="this.src='{{ url_for('static', filename='images/no_cover.svg') }}'">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text text-muted">Автор: {{ book.author }}</p>
+                    <p><strong>Описание:</strong> {{ book.description or 'Описание отсутствует' }}</p>
+                    <a href="{{ url_for('view_book', book_id=book.id) }}" class="btn btn-read btn-sm w-100">Читать</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<h2 class="mt-5 mb-3">Открытые рекомендации</h2>
+<div class="row row-cols-1 row-cols-md-3 g-3">
+    {% for book in public_books %}
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <img src="{{ url_for('uploaded_file', filename='covers/' + book.cover) }}"
+                 class="card-img-top"
+                 alt="{{ book.title }}"
+                 onerror="this.src='{{ url_for('static', filename='images/no_cover.svg') }}'">
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text text-muted">Автор: {{ book.author }}</p>
+                <p><strong>Описание:</strong> {{ book.description or 'Описание отсутствует' }}</p>
+                <a href="{{ url_for('view_book', book_id=book.id) }}" class="btn btn-read btn-sm w-100">Читать</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

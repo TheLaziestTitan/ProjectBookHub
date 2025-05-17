@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Открытые рекомендации{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Открытые рекомендации</h2>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for book in books %}
+        {% if book.is_public %}
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
+                    <div class="position-relative overflow-hidden" style="height: 250px; width: 450px;">
+                        {% if book.cover %}
+                            <img src="{{ url_for('uploaded_file', filename='covers/' + book.cover) }}"
+                                 class="card-img-top w-100 h-100 object-fit-cover"
+                                 alt="{{ book.title }}">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted fw-light">
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body p-3">
+                        <h5 class="card-title mb-1 fw-bold">{{ book.title }}</h5>
+                        <p class="card-text mb-2 text-muted small">Автор: {{ book.author }}</p>
+
+                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-black bg-opacity-25 text-white opacity-0 hover-button">
+                            <a href="{{ url_for('view_book', book_id=book.id) }}" class="btn btn-outline-light btn-sm">
+                                <i class="bi bi-book"></i> Читать
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

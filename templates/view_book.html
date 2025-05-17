@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ book.title }}</h1>
+<h5>Автор: {{ book.author }}</h5>
+<h6>Описание: {{ book.description }}</h6>
+
+<div class="mb-4">
+    <img src="{{ url_for('uploaded_file', filename='covers/' + book.cover) }}"
+         class="img-fluid w-50"
+         alt="{{ book.title }}">
+</div>
+
+<div class="d-flex justify-content-between align-items-center mt-4">
+    <a href="{{ url_for('download_file', filename=book.file_path) }}" class="btn btn-primary">
+        <i class="bi bi-download"></i> Скачать книгу
+    </a>
+
+    <a href="{{ url_for('home') }}" class="btn btn-dark">
+        <i class="bi bi-arrow-left"></i> Назад
+    </a>
+</div>
+{% endblock %}
